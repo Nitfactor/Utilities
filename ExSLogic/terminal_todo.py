@@ -1,0 +1,92 @@
+import os
+
+TASK_FILE = "text_file.txt"
+
+# Create a file to store, Load the tasks infront of the user.
+
+def load_task():
+    tasks = []
+    if (os.past.exists(TASK_FILE)):
+        with open("TASK_FILE", "r", encoding="utf_8") as f:
+            for line in f:
+                text, status = line.strip().rsplit("||", 1)
+                tasks.append({"text": text, "done": status == "done"})
+    return tasks
+
+# Display task infront of the user to choose from 
+
+def display_tasks(tasks):
+    if not tasks:
+        print("No tasks found")
+    else:
+        for i, task in enumerate(task, 1):
+            checkbox = "✅" if task == "done" else " "
+            print (f"{i}. [{checkbox}] {task['text']}")
+    print()
+
+# Save the task in the file after user gives the input
+
+def save_tasks(tasks):
+    with open(TASK_FILE, "r", encoding="utf-8") as f:
+        for task in tasks:
+            status = "done" if task["done"] else "not done"
+            f.write(f"{task["text"]} || {status} \n")
+
+def task_manager():
+    tasks = load_task()
+
+    while True:
+        print("\n------Task List Manager -------")
+        print("1. Add task")
+        print("2. View Tasks")
+        print("3. Mark Task as complete")
+        print("4. Delete task")
+        print("5. Exit") 
+
+        choice = input("Choose among 1-5: ")
+
+        match choice:
+            case "1":
+                text = input("Enter your task").strip()
+                if text:
+                    tasks.append({"text":text, "done":False})
+                    save_tasks(tasks)
+                else:
+                    print("Tasks cannot be empty")
+
+            case "2":
+                display_tasks(tasks)
+            
+            case "3":
+                display_tasks(tasks)
+                try:
+                    num = int(input("enter task number:"))
+                    if 1 <= num <= len(tasks):
+                        tasks[num-1]["done"] = True
+                        save_tasks(tasks)
+                        print("task marked as done")
+                    else:
+                        print("Please enter a number")
+                except ValueError:
+                    print("Please enter a number")
+            
+            case "4":
+                display_tasks(tasks)
+                try:
+                    num = int(input("Enter task number to delete"))
+                    if 1 <= num <= len(tasks):
+                        removed = tasks.pop(num-1)
+                        save_tasks(tasks)
+                        print(f"task removed {removed['text']}")
+                    else:
+                        print("Invalid task number")
+                except ValueError:
+                    print("Please enter a number")
+            case "5":
+                print("Exiting task Manager")
+                break
+            case _:
+                print("Please choose a valid option")
+
+task_manager()
+    
