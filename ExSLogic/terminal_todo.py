@@ -49,7 +49,7 @@ def task_manager():
             case "1":
                 text = input("Enter your task").strip()
                 if text:
-                    tasks.append({"text":text, "done":False})
+                    tasks.append({"text":text, "done":False}) 
                     save_tasks(tasks)
                 else:
                     print("Tasks cannot be empty")
