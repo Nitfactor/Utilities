@@ -12,8 +12,11 @@ while True:
     except ValueError:
         print("Enter a number that is 1 or more than 1 !")
 
+print("\n.......Timer started........ ")
 for remaining in range(seconds, 0, -1):
-    mins, secs = divmod(0, 60)
+    mins, secs = divmod(remaining, 60)
     time_format = f"{mins:02}, {secs:02}"
     print(f"Time left: {time_format}", end="\r")
     time.sleep(1)
+
+print("Time is up !")
