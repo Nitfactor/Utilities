@@ -3,13 +3,28 @@ import os
 TASK_FILE = "tasks.txt"
 
 def load_tasks():
-    pass
+    tasks = []
+    if (os.path.exists(TASK_FILE)):
+        with open(TASK_FILE, 'r', encoding = "utf-8") as f:
+            for line in f:
+                text, status = line.strip().rsplit("||", 1)
+                tasks.append({"text": text, "done": status == "done"})
+    return tasks
 
-def save_task():
-    pass
+def save_task(tasks):
+    with open(TASK_FILE, 'w', encoding="utf-8") as f:
+        for task in tasks:
+            status = "done" if task["done"] else "not done"
+            f.write(f"{task['text']}||{status}\n")
 
-def display_tasks():
-    pass
+def display_tasks(tasks):
+    if not tasks:
+        print(f"NO tasks found")
+    else:
+        for i, task in enumerate(tasks, 1):
+            checkbox = "✅" if task["done"] else " "
+            print(f"{i}. [{checkbox}] {task['text']}")
+    print()
 
 def task_manager():
     tasks = load_tasks()
@@ -53,7 +68,7 @@ def task_manager():
                 try:
                     num = int(input("Enter task number: "))
                     if 1 <= num <= len(tasks):
-                        remove = tasks.pop[num-1]
+                        remove = tasks.pop(num-1)
                         save_task(tasks)
                         print(f"Task removed: {remove["text"]}")
                     else:
