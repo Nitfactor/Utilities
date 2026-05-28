@@ -27,11 +27,10 @@ def hacker_news(url):
     get_links = soup.select("span.titleline > a")
     # print(get_links)
 
-    post = []
+    posts = []
     for link in get_links[:20]:
         title = link.text.strip()
         url = link.get("href").strip()
         print(f"\n Title: {title}\n url: {url}\n")
-
+    return posts
 hacker_news(url)
-    
